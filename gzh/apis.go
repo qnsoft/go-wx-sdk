@@ -3,6 +3,7 @@ package gzh
 import (
 	"fmt"
 	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/qnsoft/go-wx-sdk/utils"
 )
@@ -25,6 +26,7 @@ type GzhApi struct {
  * @return *AccessTokenModel
  */
 func (this *GzhApi) get_token() AccessTokenModel {
+	glog.SetPath("./tmp/wx_gzh_log")
 	_accessToken := AccessTokenModel{}
 	//_token_model, _token_err := utils.GetCache("access_token", "", 700)
 	//if _token_err == nil && _token_model != nil {
@@ -46,6 +48,7 @@ func (this *GzhApi) get_token() AccessTokenModel {
 			utils.SetCache("access_token", _accessToken, _accessToken.ExpiresIN)
 		}
 	}
+	glog.Println("当前传的accessToken%#v", _accessToken)
 	//}
 	return _accessToken
 }
