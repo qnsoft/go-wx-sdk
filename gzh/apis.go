@@ -160,10 +160,10 @@ func (this *GzhApi) DelPrivateTemplate(_template_id string) (interface{}, error)
  * @return interface{}
  * @return error
  */
-func (this *GzhApi) SendTemplate(_access_token string, _map g.Map) (interface{}, error) {
+func (this *GzhApi) SendTemplate(_map g.Map) (interface{}, error) {
 	var _rt interface{}
-	//_token_info:=this.get_token()
-	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", _access_token), gconv.String(_map))
+	_token_info := this.get_token()
+	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", _token_info.AccessToken), gconv.String(_map))
 	if _err == nil {
 		_rt = gconv.Map(_rs.ReadAllString())
 	}
