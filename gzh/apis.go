@@ -166,7 +166,7 @@ func (this *GzhApi) DelPrivateTemplate(_template_id string) (interface{}, error)
 func (this *GzhApi) SendTemplate(_data interface{}) (interface{}, error) {
 	var _rt interface{}
 	_token_info := this.get_token()
-	_rs, _err := g.Client().Post(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", _token_info.AccessToken), _data)
+	_rs, _err := g.Client().HeaderRaw("Content-Type:application/json").Post(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", _token_info.AccessToken), _data)
 	if _err == nil {
 		_rt = gconv.Map(_rs.ReadAllString())
 	}
