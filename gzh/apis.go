@@ -26,27 +26,27 @@ type GzhApi struct {
  */
 func (this *GzhApi) get_token() AccessTokenModel {
 	_accessToken := AccessTokenModel{}
-	_token_model, _token_err := utils.GetCache("access_token", "", 700)
-	if _token_err == nil && _token_model != nil {
-		_errA := gconv.Struct(_token_model, &_accessToken)
-		if _errA != nil {
-			_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", AppID, Secret))
-			if _err == nil {
-				_err1 := gconv.Struct(_rs.ReadAllString(), &_accessToken)
-				if _err1 == nil {
-					utils.SetCache("access_token", _accessToken, _accessToken.ExpiresIN)
-				}
-			}
-		}
-	} else {
-		_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", AppID, Secret))
-		if _err == nil {
-			_err1 := gconv.Struct(_rs.ReadAllString(), &_accessToken)
-			if _err1 == nil {
-				utils.SetCache("access_token", _accessToken, _accessToken.ExpiresIN)
-			}
+	//_token_model, _token_err := utils.GetCache("access_token", "", 700)
+	//if _token_err == nil && _token_model != nil {
+	//	_errA := gconv.Struct(_token_model, &_accessToken)
+	//	if _errA != nil {
+	//		_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", AppID, Secret))
+	//		if _err == nil {
+	//			_err1 := gconv.Struct(_rs.ReadAllString(), &_accessToken)
+	//			if _err1 == nil {
+	//				utils.SetCache("access_token", _accessToken, _accessToken.ExpiresIN)
+	//			}
+	//		}
+	//	}
+	//} else {
+	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", AppID, Secret))
+	if _err == nil {
+		_err1 := gconv.Struct(_rs.ReadAllString(), &_accessToken)
+		if _err1 == nil {
+			utils.SetCache("access_token", _accessToken, _accessToken.ExpiresIN)
 		}
 	}
+	//}
 	return _accessToken
 }
 
