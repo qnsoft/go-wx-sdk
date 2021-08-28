@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/qnsoft/go-wx-sdk/utils"
+	"strings"
 	"time"
 )
 
@@ -59,10 +60,17 @@ func (this *GzhApi) get_token() AccessTokenModel {
  */
 func (this *GzhApi) GetApiDomainIP() (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/get_api_domain_ip?access_token=%s", _token_info.AccessToken))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, nil
 }
@@ -73,10 +81,17 @@ func (this *GzhApi) GetApiDomainIP() (interface{}, error) {
  */
 func (this *GzhApi) GetCallBackIP() (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s", _token_info.AccessToken))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, nil
 }

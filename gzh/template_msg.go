@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
+	"github.com/qnsoft/go-wx-sdk/utils"
+	"strings"
 )
 
 //---------------------------------------模板消息----------------------------------------------------------
@@ -13,13 +15,20 @@ import (
  */
 func (this *GzhApi) SetIndustry() (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Post(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=%s", _token_info.AccessToken), gconv.String(g.Map{
 		"industry_id1": "2",
 		"industry_id2": "4",
 	}))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, nil
 }
@@ -30,10 +39,17 @@ func (this *GzhApi) SetIndustry() (interface{}, error) {
  */
 func (this *GzhApi) GetIndustry() (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s", _token_info.AccessToken))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, _err
 }
@@ -47,12 +63,19 @@ func (this *GzhApi) GetIndustry() (interface{}, error) {
  */
 func (this *GzhApi) AddTemplate(_template_id_short string) (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Post(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=%s", _token_info.AccessToken), gconv.String(g.Map{
 		"template_id_short": _template_id_short,
 	}))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, _err
 }
@@ -66,10 +89,17 @@ func (this *GzhApi) AddTemplate(_template_id_short string) (interface{}, error) 
  */
 func (this *GzhApi) GetAllPrivateTemplate() (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=%s", _token_info.AccessToken))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, _err
 }
@@ -83,12 +113,19 @@ func (this *GzhApi) GetAllPrivateTemplate() (interface{}, error) {
  */
 func (this *GzhApi) DelPrivateTemplate(_template_id string) (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=%s", _token_info.AccessToken), gconv.String(g.Map{
 		"template_id": _template_id,
 	}))
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, _err
 }
@@ -102,10 +139,17 @@ func (this *GzhApi) DelPrivateTemplate(_template_id string) (interface{}, error)
  */
 func (this *GzhApi) SendTemplate(_data interface{}) (interface{}, error) {
 	var _rt interface{}
+Label1:
 	_token_info := this.get_token()
 	_rs, _err := g.Client().HeaderRaw("Content-Type:application/json").Post(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", _token_info.AccessToken), _data)
 	if _err == nil {
-		_rt = gconv.Map(_rs.ReadAllString())
+		_get_json := _rs.ReadAllString()
+		if strings.Contains(_get_json, "40001") {
+			utils.RemoveCache("gzh_access_token")
+			goto Label1
+		} else {
+			_rt = gconv.Map(_get_json)
+		}
 	}
 	return _rt, _err
 }
