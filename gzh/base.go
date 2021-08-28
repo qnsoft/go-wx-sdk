@@ -25,7 +25,9 @@ type AccessTokenModel struct {
 公众号对象
 */
 type GzhApi struct {
-	AppID  string `json:"appid"`
+	//appid 从公众号开发者中心获取
+	AppID string `json:"appid"`
+	//secret 从公众号开发者中心获取
 	Secret string `json:"secret"`
 }
 
