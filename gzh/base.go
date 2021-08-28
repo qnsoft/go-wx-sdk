@@ -40,17 +40,14 @@ func (this *GzhApi) get_token() AccessTokenModel {
 	if _token_info == nil {
 		_rs, _err := g.Client().Get(fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", this.AppID, this.Secret))
 		if _err == nil {
-			_err1 := gconv.Struct(_rs.ReadAllString(), &_accessToken)
-			if _err1 == nil {
-				utils.SetCache("gzh_access_token", g.Map{
-					"access_token": _accessToken.AccessToken,
-					"expires_in":   _accessToken.ExpiresIN,
-				}, 7000)
-			}
+			_get_json := _rs.ReadAllString()
+			glog.Println("直接接口获取token", _get_json)
+			utils.SetCache("gzh_access_token", gconv.Map(_get_json), 7000)
 		}
 		_token_info, _ = utils.GetCache("gzh_access_token")
+	} else {
+		glog.Println("从缓存获取token", gconv.Map(_token_info))
 	}
-	glog.Println("当前传的accessToken%#v", gconv.Map(_token_info))
 	_accessToken.AccessToken = gconv.String(gconv.Map(_token_info)["access_token"])
 	_accessToken.ExpiresIN = gconv.Duration(gconv.Map(_token_info)["expires_in"])
 	return _accessToken
